@@ -45,13 +45,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           </div>
           <div className="flex flex-wrap justify-center py-4 space-x-6 lg:hidden">
             {navigation.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-base font-medium text-white hover:text-indigo-50"
-              >
-                {link.name}
-              </a>
+              <Link key={link.name} href={link.href}>
+                <a className="text-base font-medium text-white hover:text-indigo-50">
+                  {link.name}
+                </a>
+              </Link>
             ))}
           </div>
         </nav>
