@@ -7,6 +7,8 @@ export let appRouter = createRouter()
   .transformer(superjson)
   .query("exercises", {
     async resolve({ ctx }) {
+      if (!ctx.session?.id) return [];
+
       return prisma.exercise.findMany({
         where: { user: ctx.session?.id },
       });
@@ -15,8 +17,8 @@ export let appRouter = createRouter()
   .query("exercise-by-id", {
     input: z.object({ id: z.number() }),
     async resolve({ ctx, input }) {
-      return prisma.exercise.findUnique({
-        where: { id: input.id },
+      return prisma.exercise.findFirst({
+        where: { id: input.id, user: ctx.session?.id },
         include: {
           logs: { orderBy: { date: "desc" } },
         },
