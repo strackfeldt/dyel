@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Exercise {
+  id Int @id @default(autoincrement())
+
+  name String
+
+  slug String
+  user String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  logs      Log[]
+
+  @@unique([slug, user])
+}
+
+model Log {
+  id Int @id @default(autoincrement())
+
+  exerciseId Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+
+  weight Int
+  reps   Int
+
+  date      DateTime @db.Date
+  createdAt DateTime @default(now())
+}
