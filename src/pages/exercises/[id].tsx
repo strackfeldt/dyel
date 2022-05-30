@@ -158,7 +158,6 @@ let Exercise: NextPage = (props: any) => {
 
     return { date: new Date(date), estOneRepMax };
   });
-  console.log(data);
 
   return (
     <div>
@@ -182,7 +181,7 @@ let Exercise: NextPage = (props: any) => {
           </div>
         </div>
 
-        {data.length > 0 && (
+        {data.length > 3 && (
           <div className="mt-12 overflow-hidden text-blue-500 bg-white rounded-lg shadow">
             <FancyGraph data={data} width={600} height={300} />
           </div>
