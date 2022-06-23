@@ -1,0 +1,32 @@
+{
+  "short_name": "DYEL",
+  "name": "DYEL",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "scope_url": "https://dyel.strackfeldt.io/",
+  "intent_filters": {
+    "scope_url_scheme": "https",
+    "scope_url_host": "strackfeldt.io",
+    "scope_url_path": "/"
+  },
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#1e293b",
+  "background_color": "#1e293b"
+}

@@ -163,7 +163,7 @@ let Exercise: NextPage = (props: any) => {
     <div>
       <LogModal open={open} setOpen={setOpen} exerciseId={exercise.id} />
 
-      <div className="p-8 ">
+      <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex-1 min-w-0">
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">

@@ -6,7 +6,9 @@ export default function LoginButton(props: any) {
   if (session) {
     return (
       <div className="flex items-center gap-5">
-        <span className="text-sm text-gray-200">{session.user?.email}</span>
+        <span className="hidden text-sm text-gray-200 md:block">
+          {session.user?.email}
+        </span>
         <button {...props} onClick={() => signOut()}>
           Sign out
         </button>

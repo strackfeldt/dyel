@@ -6,7 +6,7 @@ let Home: NextPage = () => {
   let { data } = trpc.useQuery(["exercises"]);
 
   return (
-    <div className="p-8">
+    <div className="p-4">
       <div>
         <div className="flex items-center justify-between">
           <div className="flex-1 min-w-0">

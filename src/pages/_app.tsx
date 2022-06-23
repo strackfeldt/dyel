@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
                   <ChartSquareBarIcon className="w-10 h-10 text-white" />
                 </a>
               </Link>
-              <div className="hidden ml-10 space-x-8 lg:block">
+              <div className="hidden ml-10 space-x-8 md:block">
                 {navigation.map((link) => (
                   <Link key={link.name} href={link.href}>
                     <a className="text-base font-medium text-white hover:text-indigo-50">
@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
               <LoginButton className="inline-block px-4 py-2 text-base font-medium text-white bg-gray-500 border border-transparent rounded-md hover:bg-opacity-75" />
             </div>
           </div>
-          <div className="flex flex-wrap justify-center py-4 space-x-6 lg:hidden">
+          <div className="flex flex-wrap justify-center py-4 space-x-6 md:hidden">
             {navigation.map((link) => (
               <Link key={link.name} href={link.href}>
                 <a className="text-base font-medium text-white hover:text-indigo-50">
