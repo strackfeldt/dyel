@@ -81,16 +81,16 @@ export default withTRPC<AppRouter>({
       url: `${getBaseUrl()}/api/trpc`,
     };
   },
-  ssr: true,
-  responseMeta({ clientErrors, ctx }) {
-    if (clientErrors.length) {
-      return {
-        status: clientErrors[0].data?.httpStatus ?? 500,
-      };
-    }
-    let ONE_DAY_IN_SECONDS = 60 * 60 * 24;
-    return {
-      "Cache-Control": `s-maxage=1, stale-while-revalidate=${ONE_DAY_IN_SECONDS}`,
-    };
-  },
+  ssr: false,
+  // responseMeta({ clientErrors, ctx }) {
+  //   if (clientErrors.length) {
+  //     return {
+  //       status: clientErrors[0].data?.httpStatus ?? 500,
+  //     };
+  //   }
+  //   let ONE_DAY_IN_SECONDS = 60 * 60 * 24;
+  //   return {
+  //     "Cache-Control": `s-maxage=1, stale-while-revalidate=${ONE_DAY_IN_SECONDS}`,
+  //   };
+  // },
 })(MyApp);
