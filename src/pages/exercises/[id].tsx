@@ -10,7 +10,7 @@ import {
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import LogModal from "../../components/log-modal";
+import { LogModal } from "../../components/log-modal";
 import { trpc } from "../../utils/trpc";
 // import { Popover } from '@headlessui/react'
 

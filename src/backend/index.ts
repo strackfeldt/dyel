@@ -28,6 +28,7 @@ export let appRouter = createRouter()
   .mutation("log-exercise", {
     input: z.object({
       exercise: z.number().positive(),
+      date: z.date().optional(),
       weight: z.number().positive(),
       reps: z.number().positive(),
     }),
@@ -37,7 +38,7 @@ export let appRouter = createRouter()
           exerciseId: input.exercise,
           weight: input.weight,
           reps: input.reps,
-          date: new Date(),
+          date: input.date || new Date(),
         },
       });
     },

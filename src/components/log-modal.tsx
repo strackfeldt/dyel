@@ -36,12 +36,13 @@ interface LogModalProps {
   exerciseId: number;
 }
 
-export default function LogModal({ open, setOpen, exerciseId }: LogModalProps) {
+export function LogModal({ open, setOpen, exerciseId }: LogModalProps) {
   let cancelButtonRef = useRef(null);
 
   let { register, handleSubmit } = useForm<{
     reps: number;
     weight: number;
+    date: string;
   }>();
   let { invalidateQueries } = trpc.useContext();
   let { mutate } = trpc.useMutation(["log-exercise"], {
@@ -55,6 +56,7 @@ export default function LogModal({ open, setOpen, exerciseId }: LogModalProps) {
     console.log(data);
 
     mutate({
+      date: data.date ? new Date(data.date) : undefined,
       reps: Number(data.reps),
       weight: Number(data.weight),
       exercise: exerciseId,
@@ -104,6 +106,7 @@ export default function LogModal({ open, setOpen, exerciseId }: LogModalProps) {
                       </Dialog.Title>
                     </div>
 
+                    <TextInput label="Date" type="date" {...register("date")} />
                     <TextInput
                       label="Reps"
                       type="number"
