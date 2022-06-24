@@ -5,6 +5,7 @@ import type { AppProps } from "next/app";
 import Link from "next/link";
 import superjson from "superjson";
 import type { AppRouter } from "../backend";
+import Image from "next/image";
 import LoginButton from "../components/login-btn";
 import "../globals.css";
 
@@ -25,8 +26,15 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             <div className="flex items-center">
               <Link href="/">
                 <a>
-                  <span className="sr-only">Workflow</span>
-                  <ChartSquareBarIcon className="w-10 h-10 text-white" />
+                  <span className="sr-only">DYEL</span>
+                  <Image
+                    src="/logo192.png"
+                    width="40"
+                    height="40"
+                    className="w-10 h-10 rounded-lg"
+                    alt="DYEL"
+                  />
+                  {/* <ChartSquareBarIcon className="w-10 h-10 text-white" /> */}
                 </a>
               </Link>
               <div className="hidden ml-10 space-x-8 md:block">
