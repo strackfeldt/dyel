@@ -1,4 +1,3 @@
-import { ChartSquareBarIcon } from "@heroicons/react/solid";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";

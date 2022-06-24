@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { LogModal } from "../../components/log-modal";
 import { trpc } from "../../utils/trpc";
-// import { Popover } from '@headlessui/react'
 
 type Data = { date: Date; estOneRepMax: number };
 
@@ -29,8 +28,6 @@ let FancyGraph: React.FC<{
 
   let startDate = startOfMonth(data.at(-1)!.date);
   let endDate = endOfMonth(data.at(0)!.date);
-
-  console.log(startDate, endDate);
 
   let months = eachMonthOfInterval({ start: startDate, end: endDate });
 
