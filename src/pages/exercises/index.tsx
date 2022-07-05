@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useSpinDelay } from "spin-delay";
 import { trpc } from "../../utils/trpc";
 
 let Home: NextPage = () => {
-  let { data } = trpc.useQuery(["exercises"]);
+  let exerciseQuery = trpc.useQuery(["exercises"]);
+  let isLoading = useSpinDelay(exerciseQuery.isLoading);
 
   return (
     <div className="p-4">
@@ -23,15 +25,22 @@ let Home: NextPage = () => {
           </div>
         </div>
       </div>
+
+      {isLoading && (
+        <div className="flex justify-center p-24">
+          <span className="animate-pulse text-lg font-medium text-gray-500">
+            Loading...
+          </span>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-2">
-        {data?.map((exercise) => (
+        {exerciseQuery.data?.map((exercise) => (
           <Link href={`/exercises/${exercise.id}`} key={exercise.id}>
             <a className="relative flex items-center px-6 py-5 space-x-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
               {exercise.name}
             </a>
           </Link>
         ))}
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
   );

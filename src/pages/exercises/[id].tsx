@@ -10,6 +10,7 @@ import {
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSpinDelay } from "spin-delay";
 import { LogModal } from "../../components/log-modal";
 import { trpc } from "../../utils/trpc";
 
@@ -125,40 +126,41 @@ let Exercise: NextPage = (props: any) => {
   let [open, setOpen] = useState(false);
 
   let { query } = useRouter();
-  let id = query.id as string;
+  let id = Number(query.id as string);
 
-  let { data: exercise } = trpc.useQuery([
-    "exercise-by-id",
-    { id: Number(id) },
-  ]);
-
-  if (!exercise) return null;
-
-  let logsByDate: Record<string, typeof exercise.logs> = exercise.logs.reduce(
-    (acc, log) => {
-      let date = new Date(log.date).toISOString();
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(log);
-      return acc;
-    },
-    {} as any
+  let { data: exercise, ...exerciseByIdQuery } = trpc.useQuery(
+    ["exercise-by-id", { id: id }],
+    {
+      enabled: !!id,
+    }
   );
 
-  let data: Array<Data> = Object.entries(logsByDate).map(([date, logs]) => {
-    function calcOrm({ weight, reps }: { weight: number; reps: number }) {
-      return weight * (1 + reps * 0.0333);
-    }
-    let orms = logs.map(calcOrm);
-    let estOneRepMax = Math.max(...orms);
+  let isLoading = useSpinDelay(exerciseByIdQuery.isLoading);
 
-    return { date: new Date(date), estOneRepMax };
-  });
+  let logsByDate = exercise?.logs.reduce((acc, log) => {
+    let date = new Date(log.date).toISOString();
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(log);
+    return acc;
+  }, {} as any);
+
+  let data: Array<Data> | undefined = exercise
+    ? Object.entries(logsByDate).map(([date, logs]: any) => {
+        function calcOrm({ weight, reps }: { weight: number; reps: number }) {
+          return weight * (1 + reps * 0.0333);
+        }
+        let orms = logs.map(calcOrm);
+        let estOneRepMax = Math.max(...orms);
+
+        return { date: new Date(date), estOneRepMax };
+      })
+    : undefined;
 
   return (
     <div>
-      <LogModal open={open} setOpen={setOpen} exerciseId={exercise.id} />
+      <LogModal open={open} setOpen={setOpen} exerciseId={exercise?.id || 0} />
 
       <div className="p-4">
         <div className="flex items-center justify-between">
@@ -178,13 +180,21 @@ let Exercise: NextPage = (props: any) => {
           </div>
         </div>
 
-        {data.length > 3 && (
+        {isLoading && (
+          <div className="flex justify-center p-24">
+            <span className="animate-pulse text-lg font-medium text-gray-500">
+              Loading...
+            </span>
+          </div>
+        )}
+
+        {data && data.length > 3 && (
           <div className="mt-12 overflow-hidden text-blue-500 bg-white rounded-lg shadow">
             <FancyGraph data={data} width={600} height={300} />
           </div>
         )}
 
-        {Object.keys(logsByDate).length === 0 && (
+        {logsByDate && Object.keys(logsByDate).length === 0 && (
           <button
             type="button"
             className="relative block w-full p-12 mt-12 text-center border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-300"
@@ -197,36 +207,39 @@ let Exercise: NextPage = (props: any) => {
           </button>
         )}
         <div className="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-2">
-          {Object.keys(logsByDate).map((date) => (
-            <div
-              key={date}
-              className="overflow-hidden bg-white rounded-lg shadow"
-            >
-              <div className="px-4 py-5 bg-white border-b border-gray-200 sm:px-6">
-                <h3 className="font-medium leading-6 text-gray-900">
-                  {date.split("T")[0]}
-                </h3>
-              </div>
-              <div className="px-4 py-5 sm:px-6">
-                <ul>
-                  {logsByDate[date].map((log, i) => (
-                    <li key={log.id} className="flex items-center gap-2 my-2">
-                      <div className="w-20 mr-2 font-medium">Set #{i + 1}:</div>
-                      <div className="w-24 text-center bg-gray-200 rounded-md">
-                        {log.reps}
-                      </div>
+          {logsByDate &&
+            Object.keys(logsByDate).map((date) => (
+              <div
+                key={date}
+                className="overflow-hidden bg-white rounded-lg shadow"
+              >
+                <div className="px-4 py-5 bg-white border-b border-gray-200 sm:px-6">
+                  <h3 className="font-medium leading-6 text-gray-900">
+                    {date.split("T")[0]}
+                  </h3>
+                </div>
+                <div className="px-4 py-5 sm:px-6">
+                  <ul>
+                    {logsByDate[date].map((log: any, i: number) => (
+                      <li key={log.id} className="flex items-center gap-2 my-2">
+                        <div className="w-20 mr-2 font-medium">
+                          Set #{i + 1}:
+                        </div>
+                        <div className="w-24 text-center bg-gray-200 rounded-md">
+                          {log.reps}
+                        </div>
 
-                      <XIcon className="w-3 h-3" />
-                      <div className="w-24 text-center bg-gray-200 rounded-md">
-                        {log.weight}
-                      </div>
-                      <span>kg</span>
-                    </li>
-                  ))}
-                </ul>
+                        <XIcon className="w-3 h-3" />
+                        <div className="w-24 text-center bg-gray-200 rounded-md">
+                          {log.weight}
+                        </div>
+                        <span>kg</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>

@@ -2486,6 +2486,11 @@ source-map-js@^1.0.1, source-map-js@^1.0.2:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
+spin-delay@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/spin-delay/-/spin-delay-1.2.0.tgz#b17ca116c86c7c42afd9df09de6cd64ca82844e0"
+  integrity sha512-PkZl5FHWOMrwQgoWejG1hBkIlVx4KbdL/37RPr5/pGq5+NWcGx7NNDukFct2yr8yRZuvwEompNR/in9nWj4sTw==
+
 string.prototype.matchall@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/string.prototype.matchall/-/string.prototype.matchall-4.0.7.tgz#8e6ecb0d8a1fb1fda470d81acecb2dba057a481d"
